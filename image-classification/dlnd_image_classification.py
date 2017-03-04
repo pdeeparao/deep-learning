@@ -60,7 +60,7 @@ tests.test_folder_path(cifar10_dataset_folder_path)
 # 
 # Ask yourself "What are all possible labels?", "What is the range of values for the image data?", "Are the labels in order or random?".  Answers to questions like these will help you preprocess the data and end up with better predictions.
 
-# In[2]:
+# In[5]:
 
 get_ipython().magic('matplotlib inline')
 get_ipython().magic("config InlineBackend.figure_format = 'retina'")
@@ -69,8 +69,8 @@ import helper
 import numpy as np
 
 # Explore the dataset
-batch_id = 1
-sample_id = 5
+batch_id = 5
+sample_id = 8
 helper.display_stats(cifar10_dataset_folder_path, batch_id, sample_id)
 
 
@@ -78,7 +78,7 @@ helper.display_stats(cifar10_dataset_folder_path, batch_id, sample_id)
 # ### Normalize
 # In the cell below, implement the `normalize` function to take in image data, `x`, and return it as a normalized Numpy array. The values should be in the range of 0 to 1, inclusive.  The return object should be the same shape as `x`.
 
-# In[3]:
+# In[6]:
 
 def normalize(x):
     """
@@ -106,7 +106,7 @@ tests.test_normalize(normalize)
 # 
 # Hint: Don't reinvent the wheel.
 
-# In[4]:
+# In[7]:
 
 import sklearn.preprocessing
 label_binarizer = sklearn.preprocessing.LabelBinarizer()
@@ -136,7 +136,7 @@ tests.test_one_hot_encode(one_hot_encode)
 # ## Preprocess all the data and save it
 # Running the code cell below will preprocess all the CIFAR-10 data and save it to file. The code below also uses 10% of the training data for validation.
 
-# In[5]:
+# In[8]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -148,7 +148,7 @@ helper.preprocess_and_save_data(cifar10_dataset_folder_path, normalize, one_hot_
 # # Check Point
 # This is your first checkpoint.  If you ever decide to come back to this notebook or have to restart the notebook, you can start from here.  The preprocessed data has been saved to disk.
 
-# In[6]:
+# In[9]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -185,7 +185,7 @@ valid_features, valid_labels = pickle.load(open('preprocess_validation.p', mode=
 # 
 # Note: `None` for shapes in TensorFlow allow for a dynamic size.
 
-# In[7]:
+# In[10]:
 
 import tensorflow as tf
 
@@ -241,7 +241,7 @@ tests.test_nn_keep_prob_inputs(neural_net_keep_prob_input)
 # 
 # Note: You **can't** use [TensorFlow Layers](https://www.tensorflow.org/api_docs/python/tf/layers) or [TensorFlow Layers (contrib)](https://www.tensorflow.org/api_guides/python/contrib.layers) for this layer.  You're free to use any TensorFlow package for all the other layers.
 
-# In[9]:
+# In[11]:
 
 def conv2d_maxpool(x_tensor, conv_num_outputs, conv_ksize, conv_strides, pool_ksize, pool_strides):
     """
@@ -259,7 +259,7 @@ def conv2d_maxpool(x_tensor, conv_num_outputs, conv_ksize, conv_strides, pool_ks
     #print(x_tensor.get_shape()[2])
     #Input depth
     input_depth = input_shape[3]
-    print("input_depth:", input_depth)
+    #print("input_depth:", input_depth)
     #Set Weights
     w = tf.Variable(tf.truncated_normal([conv_ksize[0], conv_ksize[1], input_depth, conv_num_outputs], stddev=0.1))
     #Set Bias
@@ -280,7 +280,7 @@ tests.test_con_pool(conv2d_maxpool)
 # ### Flatten Layer
 # Implement the `flatten` function to change the dimension of `x_tensor` from a 4-D tensor to a 2-D tensor.  The output should be the shape (*Batch Size*, *Flattened Image Size*). You can use [TensorFlow Layers](https://www.tensorflow.org/api_docs/python/tf/layers) or [TensorFlow Layers (contrib)](https://www.tensorflow.org/api_guides/python/contrib.layers) for this layer.
 
-# In[10]:
+# In[30]:
 
 def flatten(x_tensor):
     """
@@ -289,8 +289,11 @@ def flatten(x_tensor):
     : return: A tensor of size (Batch Size, Flattened Image Size).
     """
     # DONE: Implement Function
-    return tf.contrib.layers.flatten(x_tensor)
-    #return None
+    #return tf.contrib.layers.flatten(x_tensor)
+    dim = 1
+    for d in x_tensor.get_shape()[1:].as_list():
+        dim*= d
+    return tf.reshape(x_tensor, shape=[-1, dim])
 
 
 """
@@ -302,7 +305,7 @@ tests.test_flatten(flatten)
 # ### Fully-Connected Layer
 # Implement the `fully_conn` function to apply a fully connected layer to `x_tensor` with the shape (*Batch Size*, *num_outputs*). You can use [TensorFlow Layers](https://www.tensorflow.org/api_docs/python/tf/layers) or [TensorFlow Layers (contrib)](https://www.tensorflow.org/api_guides/python/contrib.layers) for this layer.
 
-# In[11]:
+# In[31]:
 
 def fully_conn(x_tensor, num_outputs):
     """
@@ -326,7 +329,7 @@ tests.test_fully_conn(fully_conn)
 # 
 # Note: Activation, softmax, or cross entropy shouldn't be applied to this.
 
-# In[13]:
+# In[32]:
 
 def output(x_tensor, num_outputs):
     """
@@ -360,7 +363,7 @@ tests.test_output(output)
 # * Return the output
 # * Apply [TensorFlow's Dropout](https://www.tensorflow.org/api_docs/python/tf/nn/dropout) to one or more layers in the model using `keep_prob`. 
 
-# In[14]:
+# In[33]:
 
 def conv_net(x, keep_prob):
     """
@@ -374,7 +377,6 @@ def conv_net(x, keep_prob):
     # Function Definition from Above:
     #    conv2d_maxpool(x_tensor, conv_num_outputs, conv_ksize, conv_strides, pool_ksize, pool_strides)
     conv1 = conv2d_maxpool(x, 32, [5,5], [2, 2], [2,2], [2, 2])
-    conv2 = conv2d_maxpool(conv1, 64, [3,3], [2,2], [2,2], [2,2])
     conv2 = conv2d_maxpool(conv1, 64, [3,3], [2,2], [2,2], [2,2])
     
 
@@ -448,7 +450,7 @@ tests.test_conv_net(conv_net)
 # 
 # Note: Nothing needs to be returned. This function is only optimizing the neural network.
 
-# In[15]:
+# In[34]:
 
 def train_neural_network(session, optimizer, keep_probability, feature_batch, label_batch):
     """
@@ -473,7 +475,7 @@ tests.test_train_nn(train_neural_network)
 # ### Show Stats
 # Implement the function `print_stats` to print loss and validation accuracy.  Use the global variables `valid_features` and `valid_labels` to calculate validation accuracy.  Use a keep probability of `1.0` to calculate the loss and validation accuracy.
 
-# In[16]:
+# In[35]:
 
 def print_stats(session, feature_batch, label_batch, cost, accuracy):
     """
@@ -484,6 +486,7 @@ def print_stats(session, feature_batch, label_batch, cost, accuracy):
     : cost: TensorFlow cost function
     : accuracy: TensorFlow accuracy function
     """
+    # TODO: Implement Function
     loss = session.run(cost, feed_dict={x: feature_batch, y: label_batch, keep_prob:1.})
     validation_accuracy = session.run(accuracy, feed_dict={x: valid_features, 
                                                             y: valid_labels, 
@@ -491,8 +494,7 @@ def print_stats(session, feature_batch, label_batch, cost, accuracy):
     print('Loss: {:>10.4f} Validation Accuracy: {:.6f}'.format(
                 loss,
                 validation_accuracy))
-
-    # TODO: Implement Function
+    
     pass
 
 
@@ -506,7 +508,7 @@ def print_stats(session, feature_batch, label_batch, cost, accuracy):
 #  * ...
 # * Set `keep_probability` to the probability of keeping a node using dropout
 
-# In[18]:
+# In[36]:
 
 # TODO: Tune Parameters
 epochs = 10
@@ -517,7 +519,7 @@ keep_probability = 0.6
 # ### Train on a Single CIFAR-10 Batch
 # Instead of training the neural network on all the CIFAR-10 batches of data, let's use a single batch. This should save time while you iterate on the model to get a better accuracy.  Once the final validation accuracy is 50% or greater, run the model on all the data in the next section.
 
-# In[19]:
+# In[37]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -539,7 +541,7 @@ with tf.Session() as sess:
 # ### Fully Train the Model
 # Now that you got a good accuracy with a single CIFAR-10 batch, try it with all five batches.
 
-# In[ ]:
+# In[38]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -571,7 +573,7 @@ with tf.Session() as sess:
 # ## Test Model
 # Test your model against the test dataset.  This will be your final accuracy. You should have an accuracy greater than 50%. If you don't, keep tweaking the model architecture and parameters.
 
-# In[ ]:
+# In[39]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -642,3 +644,8 @@ test_model()
 # You might be wondering why you can't get an accuracy any higher. First things first, 50% isn't bad for a simple CNN.  Pure guessing would get you 10% accuracy. However, you might notice people are getting scores [well above 70%](http://rodrigob.github.io/are_we_there_yet/build/classification_datasets_results.html#43494641522d3130).  That's because we haven't taught you all there is to know about neural networks. We still need to cover a few more techniques.
 # ## Submitting This Project
 # When submitting this project, make sure to run all the cells before saving the notebook.  Save the notebook file as "dlnd_image_classification.ipynb" and save it as a HTML file under "File" -> "Download as".  Include the "helper.py" and "problem_unittests.py" files in your submission.
+
+# In[ ]:
+
+
+

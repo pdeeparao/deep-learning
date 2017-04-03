@@ -12243,7 +12243,7 @@ Barney_Gumble: Yeah, you should only drink to enhance your social skills.
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO: Implement Function</span>
     <span class="n">lstm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">BasicLSTMCell</span><span class="p">(</span><span class="n">rnn_size</span><span class="p">,</span> <span class="n">state_is_tuple</span><span class="o">=</span><span class="kc">True</span> <span class="p">)</span>
-    <span class="n">number_of_layers</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">number_of_layers</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">stacked_lstm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">MultiRNNCell</span><span class="p">([</span><span class="n">lstm</span><span class="p">]</span><span class="o">*</span><span class="n">number_of_layers</span><span class="p">)</span>
     <span class="n">initial_state</span> <span class="o">=</span> <span class="n">stacked_lstm</span><span class="o">.</span><span class="n">zero_state</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
     <span class="n">initial_state</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">initial_state</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;initial_state&quot;</span><span class="p">)</span>
@@ -12575,9 +12575,9 @@ Tests Passed
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Number of Epochs</span>
-<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">20</span>
 <span class="c1"># Batch Size</span>
-<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
 <span class="c1"># RNN Size</span>
 <span class="n">rnn_size</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="c1"># Sequence Length</span>
@@ -12709,20 +12709,113 @@ Tests Passed
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Batches shape - (num_of_batches, 2, batch_size, window_length): (13, 2, 500, 10)
-Epoch   0 Batch    0/13   train_loss = 8.821
-Epoch   0 Batch   10/13   train_loss = 4.962
-Epoch   1 Batch    7/13   train_loss = 4.795
-Epoch   2 Batch    4/13   train_loss = 4.810
-Epoch   3 Batch    1/13   train_loss = 4.858
-Epoch   3 Batch   11/13   train_loss = 4.774
-Epoch   4 Batch    8/13   train_loss = 4.766
-Epoch   5 Batch    5/13   train_loss = 4.787
-Epoch   6 Batch    2/13   train_loss = 4.818
-Epoch   6 Batch   12/13   train_loss = 4.797
-Epoch   7 Batch    9/13   train_loss = 4.756
-Epoch   8 Batch    6/13   train_loss = 4.774
-Epoch   9 Batch    3/13   train_loss = 4.803
+<pre>Batches shape - (num_of_batches, 2, batch_size, window_length): (53, 2, 128, 10)
+Epoch   0 Batch    0/53   train_loss = 8.816
+Epoch   0 Batch   10/53   train_loss = 5.537
+Epoch   0 Batch   20/53   train_loss = 7.469
+Epoch   0 Batch   30/53   train_loss = 6.853
+Epoch   0 Batch   40/53   train_loss = 6.666
+Epoch   0 Batch   50/53   train_loss = 6.573
+Epoch   1 Batch    7/53   train_loss = 5.646
+Epoch   1 Batch   17/53   train_loss = 5.816
+Epoch   1 Batch   27/53   train_loss = 5.579
+Epoch   1 Batch   37/53   train_loss = 5.752
+Epoch   1 Batch   47/53   train_loss = 5.559
+Epoch   2 Batch    4/53   train_loss = 6.614
+Epoch   2 Batch   14/53   train_loss = 5.336
+Epoch   2 Batch   24/53   train_loss = 5.895
+Epoch   2 Batch   34/53   train_loss = 5.606
+Epoch   2 Batch   44/53   train_loss = 5.453
+Epoch   3 Batch    1/53   train_loss = 6.444
+Epoch   3 Batch   11/53   train_loss = 6.160
+Epoch   3 Batch   21/53   train_loss = 6.293
+Epoch   3 Batch   31/53   train_loss = 5.401
+Epoch   3 Batch   41/53   train_loss = 4.821
+Epoch   3 Batch   51/53   train_loss = 4.720
+Epoch   4 Batch    8/53   train_loss = 5.157
+Epoch   4 Batch   18/53   train_loss = 4.981
+Epoch   4 Batch   28/53   train_loss = 4.533
+Epoch   4 Batch   38/53   train_loss = 4.551
+Epoch   4 Batch   48/53   train_loss = 4.009
+Epoch   5 Batch    5/53   train_loss = 4.297
+Epoch   5 Batch   15/53   train_loss = 4.300
+Epoch   5 Batch   25/53   train_loss = 3.897
+Epoch   5 Batch   35/53   train_loss = 3.851
+Epoch   5 Batch   45/53   train_loss = 3.251
+Epoch   6 Batch    2/53   train_loss = 4.202
+Epoch   6 Batch   12/53   train_loss = 3.973
+Epoch   6 Batch   22/53   train_loss = 3.826
+Epoch   6 Batch   32/53   train_loss = 3.255
+Epoch   6 Batch   42/53   train_loss = 2.784
+Epoch   6 Batch   52/53   train_loss = 3.314
+Epoch   7 Batch    9/53   train_loss = 3.381
+Epoch   7 Batch   19/53   train_loss = 3.287
+Epoch   7 Batch   29/53   train_loss = 2.702
+Epoch   7 Batch   39/53   train_loss = 2.502
+Epoch   7 Batch   49/53   train_loss = 3.178
+Epoch   8 Batch    6/53   train_loss = 3.585
+Epoch   8 Batch   16/53   train_loss = 2.884
+Epoch   8 Batch   26/53   train_loss = 2.690
+Epoch   8 Batch   36/53   train_loss = 2.431
+Epoch   8 Batch   46/53   train_loss = 2.425
+Epoch   9 Batch    3/53   train_loss = 3.437
+Epoch   9 Batch   13/53   train_loss = 2.690
+Epoch   9 Batch   23/53   train_loss = 2.395
+Epoch   9 Batch   33/53   train_loss = 1.980
+Epoch   9 Batch   43/53   train_loss = 1.932
+Epoch  10 Batch    0/53   train_loss = 3.550
+Epoch  10 Batch   10/53   train_loss = 2.474
+Epoch  10 Batch   20/53   train_loss = 2.105
+Epoch  10 Batch   30/53   train_loss = 1.787
+Epoch  10 Batch   40/53   train_loss = 1.564
+Epoch  10 Batch   50/53   train_loss = 2.469
+Epoch  11 Batch    7/53   train_loss = 2.456
+Epoch  11 Batch   17/53   train_loss = 1.970
+Epoch  11 Batch   27/53   train_loss = 1.561
+Epoch  11 Batch   37/53   train_loss = 1.383
+Epoch  11 Batch   47/53   train_loss = 1.886
+Epoch  12 Batch    4/53   train_loss = 2.422
+Epoch  12 Batch   14/53   train_loss = 1.896
+Epoch  12 Batch   24/53   train_loss = 1.488
+Epoch  12 Batch   34/53   train_loss = 1.215
+Epoch  12 Batch   44/53   train_loss = 1.407
+Epoch  13 Batch    1/53   train_loss = 2.569
+Epoch  13 Batch   11/53   train_loss = 1.641
+Epoch  13 Batch   21/53   train_loss = 1.396
+Epoch  13 Batch   31/53   train_loss = 1.123
+Epoch  13 Batch   41/53   train_loss = 1.077
+Epoch  13 Batch   51/53   train_loss = 2.033
+Epoch  14 Batch    8/53   train_loss = 1.640
+Epoch  14 Batch   18/53   train_loss = 1.295
+Epoch  14 Batch   28/53   train_loss = 1.056
+Epoch  14 Batch   38/53   train_loss = 0.904
+Epoch  14 Batch   48/53   train_loss = 1.519
+Epoch  15 Batch    5/53   train_loss = 1.641
+Epoch  15 Batch   15/53   train_loss = 1.247
+Epoch  15 Batch   25/53   train_loss = 0.988
+Epoch  15 Batch   35/53   train_loss = 0.895
+Epoch  15 Batch   45/53   train_loss = 1.203
+Epoch  16 Batch    2/53   train_loss = 1.800
+Epoch  16 Batch   12/53   train_loss = 1.182
+Epoch  16 Batch   22/53   train_loss = 0.991
+Epoch  16 Batch   32/53   train_loss = 0.781
+Epoch  16 Batch   42/53   train_loss = 0.784
+Epoch  16 Batch   52/53   train_loss = 1.690
+Epoch  17 Batch    9/53   train_loss = 1.133
+Epoch  17 Batch   19/53   train_loss = 0.931
+Epoch  17 Batch   29/53   train_loss = 0.847
+Epoch  17 Batch   39/53   train_loss = 0.683
+Epoch  17 Batch   49/53   train_loss = 1.228
+Epoch  18 Batch    6/53   train_loss = 1.210
+Epoch  18 Batch   16/53   train_loss = 0.850
+Epoch  18 Batch   26/53   train_loss = 0.719
+Epoch  18 Batch   36/53   train_loss = 0.654
+Epoch  18 Batch   46/53   train_loss = 0.906
+Epoch  19 Batch    3/53   train_loss = 1.335
+Epoch  19 Batch   13/53   train_loss = 0.875
+Epoch  19 Batch   23/53   train_loss = 0.683
+Epoch  19 Batch   33/53   train_loss = 0.614
+Epoch  19 Batch   43/53   train_loss = 0.684
 Model Trained and Saved
 </pre>
 </div>
@@ -12876,8 +12969,9 @@ Model Trained and Saved
 <span class="sd">    :return: String of the predicted word</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO: Implement Function</span>
-    <span class="n">high_prob_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">probabilities</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">probabilities</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">int_to_vocab</span><span class="p">[</span><span class="n">high_prob_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">int_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">int_to_vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">high_prob_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">int_keys</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">probabilities</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">int_to_vocab</span><span class="p">[</span><span class="n">high_prob_idx</span><span class="p">]</span>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -12980,7 +13074,21 @@ Model Trained and Saved
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>moe_szyslak: the greystash someday freaky i&#39;unno joint unbelievable aquafresh can&#39;tcha secret hooray blessing delightful pissed attitude waylon hall burg chip you-need-man date boxcars mexican_duffman: heh _hooper: lis splattered borrow each maggie calm world announcer: romantic country-fried uses understand elite brunch janette darn anti-lock practice pee eve ridiculous scrubbing sheepish relaxing wayne: naegle products pissed cats of through star leathery neat bushes tang ton weekend water artie_ziff: maintenance impressed high-falutin&#39; mac-who lady really reconsidering eminence railroad pretend selection thirteen planning ohhhh malibu eager louder evergreen dealt sitar onassis&#34; breathtaking noticing beers presided yesterday bill soothing traditions brought atlanta hafta earlier lenford sec advertising period horrible when nearly consulting impeach swamp danish arms santeria powerful older skills promised puff flaking noble luckily frink-y that&#39;s giving choked-up affection sieben-gruben teddy idea&#39;s sigh total sternly refreshment inquiries yeah thinks worked hyper-credits winston wayne: question ringing attitude dead fish jackpot&#39;s sequel thousand-year luv loud behavior bottom housework aziz farewell rig whisper scram robin when&#39;s optimistic arrest bashir&#39;s oooo telling sangre trade artie_ziff: saget seymour pets bart frankly upn softer it&#39;ll emotion janette hygienically instantly washouts fair pats strokkur patrick&#39;s that&#39;ll tokens smell strangles first &#39;em stopped rem l dimly winnings generosity mix eaten singing middle
+<pre>moe_szyslak: dunno. we love that boy. one smells. moe_szyslak: you&#39;ll excuse me, i&#39;m on? a pretzel? wow, looks like i pulled a homer!
+patrons:
+
+patrons:(mumbling, and(sobs) what am i gonna do? what am i gonna do?
+barney_gumble: hey, hey, honest people, so i used a little trick. i was pretty nervous, so i?
+homer_simpson: did it work?
+barney_gumble: i&#39;m a free man, ain&#39;t i gonna do?
+barney_gumble: whoa!
+homer_simpson: i&#39;m a free man, ain&#39;t?
+barney_gumble: whoa!
+barney_gumble: hey, one chocolate milk..
+lisa_simpson: uh, well actually, you rotch. hold on, i&#39;ll check........ but lisa_simpson: he has to give a speech tomorrow on&#34; how to keep cool in a crisis.&#34;
+
+homer_simpson:(mumbling, not in unison) happy thoughts. happy thoughts...
+lisa_simpson: to forget your here you go. i used to see lisa_simpson: he&#39;s just a
 </pre>
 </div>
 </div>

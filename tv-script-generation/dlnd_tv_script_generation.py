@@ -235,7 +235,7 @@ def get_init_cell(batch_size, rnn_size):
     """
     # TODO: Implement Function
     lstm = tf.contrib.rnn.BasicLSTMCell(rnn_size, state_is_tuple=True )
-    number_of_layers = 5
+    number_of_layers = 1
     stacked_lstm = tf.contrib.rnn.MultiRNNCell([lstm]*number_of_layers)
     initial_state = stacked_lstm.zero_state(batch_size, tf.float32)
     initial_state = tf.identity(initial_state, name="initial_state")
@@ -408,9 +408,9 @@ tests.test_get_batches(get_batches)
 # In[14]:
 
 # Number of Epochs
-num_epochs = 10
+num_epochs = 20
 # Batch Size
-batch_size = 500
+batch_size = 128
 # RNN Size
 rnn_size = 100
 # Sequence Length
@@ -573,8 +573,9 @@ def pick_word(probabilities, int_to_vocab):
     :return: String of the predicted word
     """
     # TODO: Implement Function
-    high_prob_idx = np.argwhere(probabilities == np.random.choice(probabilities)).flatten()
-    return int_to_vocab[high_prob_idx[0]]
+    int_keys = list(int_to_vocab.keys())
+    high_prob_idx = np.random.choice(int_keys, p=probabilities)
+    return int_to_vocab[high_prob_idx]
 
 
 """

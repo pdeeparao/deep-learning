@@ -343,10 +343,10 @@ def decoding_layer(dec_embed_input, dec_embeddings, encoder_state, vocab_size, s
         train_logits = decoding_layer_train(encoder_state, dec_cell, dec_embed_input, sequence_length, 
                                             decoding_scope, output_fn, keep_prob)
     
-    with tf.variable_scope("decoding", reuse=True) as decoding_scope:
-        inference_logits = decoding_layer_infer(encoder_state, dec_cell, dec_embeddings, target_vocab_to_int['<GO>'],
-                                                target_vocab_to_int['<EOS>'], sequence_length, vocab_size, 
-                                                decoding_scope, output_fn, keep_prob)
+    decoding_scope.reuse_variables()
+    inference_logits = decoding_layer_infer(encoder_state, dec_cell, dec_embeddings, target_vocab_to_int['<GO>'],
+                                            target_vocab_to_int['<EOS>'], sequence_length, vocab_size, 
+                                            decoding_scope, output_fn, keep_prob)
     return train_logits, inference_logits
 
 
@@ -427,14 +427,14 @@ tests.test_seq2seq_model(seq2seq_model)
 # Number of Epochs
 epochs = 10
 # Batch Size
-batch_size = 512
+batch_size = 256
 # RNN Size
-rnn_size = 50
+rnn_size = 512
 # Number of Layers
 num_layers = 2
 # Embedding Size
-encoding_embedding_size = 13
-decoding_embedding_size = 13
+encoding_embedding_size = 256
+decoding_embedding_size = 256
 # Learning Rate
 learning_rate = 0.001
 # Dropout Keep Probability
